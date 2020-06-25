@@ -15,7 +15,7 @@
           "file": 2,
           "line": 3,
           "column": 4,
-          "code": 5,
+          // "code": 5,
           "message": 6,
           "loop": true
         }

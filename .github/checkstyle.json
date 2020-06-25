@@ -19,7 +19,7 @@
         {
           // The star matchers in the warning/error section are for color codes
           "regexp": "^\\[.*(WARNING|ERROR).*\\] ([^:].+):\\[(\\d+)(?:,(\\d+))?\\] \\((.+)\\) (.+)$",
-          "severity": 1,
+          // "severity": 1,
           "file": 2,
           "line": 3,
           "column": 4,

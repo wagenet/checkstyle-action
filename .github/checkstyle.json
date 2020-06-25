@@ -4,13 +4,19 @@
       "owner": "checkstyle",
       "pattern": [
         {
+          // This is far too specific for generic use
+          "regexp": "maven-checkstyle-plugin:.+:check.+@\\s+(\\S+)",
+          "fileRoot": 1
+        },
+        {
           "regexp": "^\\[(WARNING|ERROR)\\] ([^:].+):\\[(\\d+)(?:,(\\d+))?\\] \\((.+)\\) (.+)$",
           "severity": 1,
           "file": 2,
           "line": 3,
           "column": 4,
           "code": 5,
-          "message": 6
+          "message": 6,
+          "loop": true
         }
       ]
     }

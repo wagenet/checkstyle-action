@@ -1,16 +1,10 @@
 import * as core from '@actions/core'
-import {wait} from './wait'
+import * as path from 'path';
 
 async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`)
-
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
-
-    core.setOutput('time', new Date().toTimeString())
+    const matchersPath = path.join(__dirname, '..', '.github');
+    console.log(`##[add-matcher]${path.join(matchersPath, 'checkstyle.json')}`);
   } catch (error) {
     core.setFailed(error.message)
   }

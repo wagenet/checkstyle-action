@@ -24,6 +24,14 @@ interface CheckstyleFile {
 
 async function run(): Promise<void> {
   try {
+    const rawFilesList = core.getInput('files')
+    let filesList: string[] | null = null
+    if (rawFilesList) {
+      filesList = (JSON.parse(rawFilesList) as string[]).map(f =>
+        path.resolve(f)
+      )
+    }
+
     const matchersPath = path.join(__dirname, '..', '.github')
     console.log(`##[add-matcher]${path.join(matchersPath, 'checkstyle.json')}`)
 
@@ -43,8 +51,9 @@ async function run(): Promise<void> {
       }
 
       for (const fileData of parsed.checkstyle.file) {
-        if (fileData.error) {
-          console.log(`  ${fileData.$.name}`)
+        const fileName = fileData.$.name
+        if ((!filesList || filesList.includes(fileName)) && fileData.error) {
+          console.log(`  ${fileName}`)
           for (const errorData of fileData.error) {
             const error = errorData.$
             let location = error.line

@@ -1099,6 +1099,11 @@ function run() {
     var e_1, _a;
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            const rawFilesList = core.getInput('files');
+            let filesList = null;
+            if (rawFilesList) {
+                filesList = JSON.parse(rawFilesList).map(f => path.resolve(f));
+            }
             const matchersPath = path.join(__dirname, '..', '.github');
             console.log(`##[add-matcher]${path.join(matchersPath, 'checkstyle.json')}`);
             // TODO: Make this configurable
@@ -1111,8 +1116,9 @@ function run() {
                     const data = yield readFile(filePath);
                     const parsed = (yield parseString(data));
                     for (const fileData of parsed.checkstyle.file) {
-                        if (fileData.error) {
-                            console.log(`  ${fileData.$.name}`);
+                        const fileName = fileData.$.name;
+                        if ((!filesList || filesList.includes(fileName)) && fileData.error) {
+                            console.log(`  ${fileName}`);
                             for (const errorData of fileData.error) {
                                 const error = errorData.$;
                                 let location = error.line;

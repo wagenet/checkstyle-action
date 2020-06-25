@@ -1132,11 +1132,6 @@ function run() {
                             console.log(`  ${fileProblems} problem${fileProblems !== 1 ? 's' : ''}\n`);
                         }
                     }
-                    console.log(`${problems} total problem${problems !== 1 ? 's' : ''}\n`);
-                    console.log(`##[remove-matcher]checkstyle`);
-                    if (problems > 0) {
-                        core.setFailed('Action failed with problems');
-                    }
                 }
             }
             catch (e_1_1) { e_1 = { error: e_1_1 }; }
@@ -1145,6 +1140,11 @@ function run() {
                     if (_c && !_c.done && (_a = _b.return)) yield _a.call(_b);
                 }
                 finally { if (e_1) throw e_1.error; }
+            }
+            console.log(`${problems} total problem${problems !== 1 ? 's' : ''}\n`);
+            console.log(`##[remove-matcher] owner=checkstyle`);
+            if (problems > 0) {
+                core.setFailed('Action failed with problems');
             }
         }
         catch (error) {

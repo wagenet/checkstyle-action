@@ -73,14 +73,14 @@ async function run(): Promise<void> {
           )
         }
       }
+    }
 
-      console.log(`${problems} total problem${problems !== 1 ? 's' : ''}\n`)
+    console.log(`${problems} total problem${problems !== 1 ? 's' : ''}\n`)
 
-      console.log(`##[remove-matcher]checkstyle`)
+    console.log(`##[remove-matcher] owner=checkstyle`)
 
-      if (problems > 0) {
-        core.setFailed('Action failed with problems')
-      }
+    if (problems > 0) {
+      core.setFailed('Action failed with problems')
     }
   } catch (error) {
     core.setFailed(error.message)

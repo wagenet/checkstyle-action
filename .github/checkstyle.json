@@ -5,7 +5,7 @@
       "pattern": [
         {
           // This is too specific for generic use
-          "regexp": "Project Directory:\s+(\\S+)",
+          "regexp": "Project Directory:\\s+(\\S+)",
           "fromPath": 1
         },
         {

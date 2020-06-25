@@ -1111,20 +1111,23 @@ function run() {
                     const data = yield readFile(filePath);
                     const parsed = (yield parseString(data));
                     for (const fileData of parsed.checkstyle.file) {
-                        console.log(`  ${fileData.$.name}`);
-                        for (const errorData of fileData.error) {
-                            const error = errorData.$;
-                            let location = error.line;
-                            if (error.column) {
-                                location += `:${error.column}`;
+                        if (fileData.error) {
+                            console.log(`  ${fileData.$.name}`);
+                            for (const errorData of fileData.error) {
+                                const error = errorData.$;
+                                let location = error.line;
+                                if (error.column) {
+                                    location += `:${error.column}`;
+                                }
+                                console.log(`    ${location} - ${error.severity} - ${error.message}`);
                             }
-                            console.log(`    ${location} - ${error.severity} - ${error.message}`);
+                            const fileProblems = fileData.error.length;
+                            problems += fileProblems;
+                            console.log(`  ${fileProblems} problem${fileProblems !== 1 ? 's' : ''}\n`);
                         }
-                        const fileProblems = fileData.error.length;
-                        problems += fileProblems;
-                        console.log(`  ${fileProblems} problem${fileProblems !== 1 ? 's' : ''}\n`);
                     }
                     console.log(`${problems} total problem${problems !== 1 ? 's' : ''}\n`);
+                    console.log(`##[remove-matcher]checkstyle`);
                     if (problems > 0) {
                         core.setFailed('Action failed with problems');
                     }

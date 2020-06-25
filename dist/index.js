@@ -1088,6 +1088,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(__webpack_require__(470));
+const coreCommand = __importStar(__webpack_require__(431));
 const glob = __importStar(__webpack_require__(281));
 const fs = __importStar(__webpack_require__(747));
 const path = __importStar(__webpack_require__(622));
@@ -1104,8 +1105,7 @@ function run() {
             if (rawFilesList) {
                 filesList = JSON.parse(rawFilesList).map(f => path.resolve(f));
             }
-            const matchersPath = path.join(__dirname, '..', '.github');
-            console.log(`##[add-matcher]${path.join(matchersPath, 'checkstyle.json')}`);
+            coreCommand.issueCommand('add-matcher', {}, path.join(__dirname, '..', '.github', 'checkstyle.json'));
             // TODO: Make this configurable
             const globber = yield glob.create('**/checkstyle-result.xml');
             let problems = 0;
@@ -1142,7 +1142,7 @@ function run() {
                 finally { if (e_1) throw e_1.error; }
             }
             console.log(`${problems} total problem${problems !== 1 ? 's' : ''}\n`);
-            console.log(`##[remove-matcher] owner=checkstyle`);
+            coreCommand.issueCommand('remove-matcher', { owner: 'checkstyle' }, '');
             if (problems > 0) {
                 core.setFailed('Action failed with problems');
             }

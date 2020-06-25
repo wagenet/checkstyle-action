@@ -1,4 +1,5 @@
 import * as core from '@actions/core'
+import * as coreCommand from '@actions/core/lib/command'
 import * as glob from '@actions/glob'
 import * as fs from 'fs'
 import * as path from 'path'
@@ -32,8 +33,11 @@ async function run(): Promise<void> {
       )
     }
 
-    const matchersPath = path.join(__dirname, '..', '.github')
-    console.log(`##[add-matcher]${path.join(matchersPath, 'checkstyle.json')}`)
+    coreCommand.issueCommand(
+      'add-matcher',
+      {},
+      path.join(__dirname, '..', '.github', 'checkstyle.json')
+    )
 
     // TODO: Make this configurable
     const globber = await glob.create('**/checkstyle-result.xml')
@@ -77,7 +81,7 @@ async function run(): Promise<void> {
 
     console.log(`${problems} total problem${problems !== 1 ? 's' : ''}\n`)
 
-    console.log(`##[remove-matcher] owner=checkstyle`)
+    coreCommand.issueCommand('remove-matcher', {owner: 'checkstyle'}, '')
 
     if (problems > 0) {
       core.setFailed('Action failed with problems')

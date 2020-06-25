@@ -4,27 +4,15 @@
       "owner": "checkstyle",
       "pattern": [
         {
-          // This is too specific for generic use
-          "regexp": "Project Directory:\\s+(\\S+)",
-          "fromPath": 1
-        },
-        // These two INFO matchers are big hacks because we want to ignore the next couple lines :(
-        // The star matchers are for color codes
-        {
-          "regexp": "^\\[.*INFO.*\\]"
+          "regexp": "^\\s*([\\S].+)$",
+          "file": 1
         },
         {
-          "regexp": "^\\[.*INFO.*\\]"
-        },
-        {
-          // The star matchers in the warning/error section are for color codes
-          "regexp": "^\\[.*(WARNING|ERROR).*\\] ([^:].+):\\[(\\d+)(?:,(\\d+))?\\] \\((.+)\\) (.+)$",
-          "severity": 1,
-          "file": 2,
-          "line": 3,
-          "column": 4,
-          "code": 5,
-          "message": 6,
+          "regexp": "^\\s*(\\d+)(?::(\\d+)) - (\\S+) - (.+)$",
+          "line": 1,
+          "column": 2,
+          "severity": 3,
+          "message": 4,
           "loop": true
         }
       ]

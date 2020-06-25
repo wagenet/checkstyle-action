@@ -58,6 +58,10 @@ async function run(): Promise<void> {
       }
 
       console.log(`${problems} total problem${problems !== 1 ? 's' : ''}\n`)
+
+      if (problems > 0) {
+        core.setFailed('Action failed with problems')
+      }
     }
   } catch (error) {
     core.setFailed(error.message)

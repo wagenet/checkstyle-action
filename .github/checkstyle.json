@@ -9,6 +9,11 @@
           "fromPath": 1
         },
         {
+          // We don't need this but we want to keep matching even if there are INFO messages in the middle
+          // The star matchers are for color codes
+          "regexp": "^\\[.*INFO.*\\]"
+        },
+        {
           // The star matchers in the warning/error section are for color codes
           "regexp": "^\\[.*(WARNING|ERROR).*\\] ([^:].+):\\[(\\d+)(?:,(\\d+))?\\] \\((.+)\\) (.+)$",
           "severity": 1,
